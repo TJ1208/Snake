@@ -12,12 +12,18 @@
 </head>
 
 <body>
-  <app-root></app-root>
+  <div class="d-flex flex-column flex-nowrap">
+    <div class="m-5">
+      <app-root></app-root>
+    </div>
+    
   <div class="d-flex flex-column">
     <p class="p-0 m-0 d-flex justify-content-start" id="score">Score:</p>
     <p class="p-0" style="position: absolute; margin-left: 300px" id="highscore">High Score:</p>
     <canvas width="400" height="400" id="game"></canvas>
   </div>
+  </div>
+  
   <script src="./assets/js-files/snake.js"></script>
 </body>
 

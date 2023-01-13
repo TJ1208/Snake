@@ -21,4 +21,8 @@ public class UserService {
 	public User getUserById(Long id) {
 		return userRepo.findById(id).get();
 	}
+	
+	public void addUser(User user) {
+		userRepo.save(user);
+	}
 }
