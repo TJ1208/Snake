@@ -1,26 +1,44 @@
-<div *ngIf="!hideMain" class="d-flex flex-column justify-content-center align-items-center">
-    <p>*Enter your name to save your score on the leaderboard!</p>
-    <input type="text" class="form-control m-2" [(ngModel)]="user.name" placeholder="Enter Username">
-    <button class="btn btn-white bg-white m-2" [disabled]="user.name.trim() == ''" (click)="addUser()">Play!</button>
-</div>
+<div class="">
+    <div *ngIf="!hideMain" class="d-flex flex-column justify-content-center align-items-center"
+        style="min-width: 30em;">
+        <p>*Enter your name to save your score on the leaderboard!</p>
+        <input type="text" class="form-control m-2" [(ngModel)]="user.name" placeholder="Enter Username">
+        <button class="btn btn-white bg-white m-2" [disabled]="user.name.trim() == ''"
+            (click)="addUser()">Play!</button>
+    </div>
 
-<table class="table table-dark table-responsive">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Player</th>
-            <th scope="col">Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of users; let i = index;">
-            <th scope="row">{{  i + 1  }}</th>
-            <td>{{  user.name  }}</td>
-            <td>{{  user.score  }}</td>
-        </tr>
-    </tbody>
-</table>
+    <div *ngIf="hideMain" class="d-flex flex-row justify-content-center align-items-center">
+        <h5 style="font-style: italic; color: lightgreen;">Top Scorers</h5>
+        <!-- <input type="text" class="form-control m-2" [(ngModel)]="user.name" placeholder="Enter Username">
+        <button class="btn btn-white bg-white m-2" [disabled]="user.name.trim() == ''"
+            (click)="addUser()">Play!</button> -->
+    </div>
 
-<div>
-    <button class="btn bg-white" style="margin-left: 5em" (click)="this.getAllUsers()">Update Rankings</button>
+    <div class="table-responsive rounded" style="max-height: 10em; min-width: 30em;" *ngIf="hideMain">
+        <table class="table table-dark table-hover">
+            <thead class="thead thead-light">
+                <tr style="color: lightblue;">
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users; let i = index;">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.score }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div *ngIf="hideMain" class="d-flex justify-content-center align-items-center"
+        style="text-align: center; margin-top: 1em;">
+        <button class="btn bg-success text-light" style="font-style: italic;" (click)="updateScore()">Update
+            Rankings</button>
+        <p style="margin-top: 1em; padding: 0.40em; margin-left: 1em;"
+            class="text-light rounded bg-secondary text-white">{{ user.name }} - {{ user.score }}</p>
+    </div>
 </div>

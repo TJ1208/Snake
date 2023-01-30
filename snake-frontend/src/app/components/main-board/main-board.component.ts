@@ -18,16 +18,25 @@ export class MainBoardComponent implements OnInit {
   users$ = new BehaviorSubject<any[]>([]);
   cast = this.users$.asObservable();
   constructor(private userService: UserService) { }
-  
+
 
   ngOnInit(): void {
-    if (localStorage.getItem("name") == null) {
-      this.hideMain = false;
-    }
     this.getAllUsers();
     this.cast.subscribe((users) => {
       this.users = users;
-    })
+    });
+    if (localStorage.getItem("name")) {
+      this.user.name = localStorage.getItem("name");
+    }
+    if (this.user.name) {
+      this.userService.getUserByName(this.user.name).subscribe(() => {
+        this.hideMain = true;
+      }, () => {
+        this.hideMain = false;
+      })
+    } else {
+      this.hideMain = false;
+    }
   }
 
   retrieveUsers(users: any[]): void {
@@ -35,9 +44,10 @@ export class MainBoardComponent implements OnInit {
   }
 
   getAllUsers(): void {
-    this.userService.getAllUsers().subscribe((users: any) => {
-      this.cast = users;
-      this.retrieveUsers(users);
+    this.userService.getUsersByScore().subscribe((users: any) => {
+      let newUsers = users.slice(0, 10);
+      this.cast = newUsers;
+      this.retrieveUsers(newUsers);
     })
   }
 
@@ -54,6 +64,18 @@ export class MainBoardComponent implements OnInit {
       this.hideMain = false;
       console.log(error);
     });
+  }
+
+  updateScore(): void {
+    let name: any = localStorage.getItem("name");
+    this.userService.getUserByName(name).subscribe((user: any) => {
+      this.user = user;
+      this.user.score = localStorage.getItem("highscore");
+      this.userService.updateUser(this.user).subscribe((user: any) => {
+        this.user = user;
+      });
+      this.getAllUsers();
+    })
   }
 
 }

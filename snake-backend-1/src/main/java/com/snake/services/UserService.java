@@ -22,7 +22,19 @@ public class UserService {
 		return userRepo.findById(id).get();
 	}
 	
+	public User getUserByName(String name) {
+		return userRepo.getUserByName(name);
+	}
+	
+	public List<User> getUsersByScore() {
+		return userRepo.getUsersByScore();
+	}
+	
 	public void addUser(User user) {
+		userRepo.save(user);
+	}
+	
+	public void updateUser(User user) {
 		userRepo.save(user);
 	}
 }
